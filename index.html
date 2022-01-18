@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="height: 40%; border: 1px solid grey;width: 50%;margin: 10% auto;padding: 90px 60px; text-align: center;"> 
+        <h1 style="font-family: Arial, Helvetica, sans-serif;">Hostel Pricing at Price-labs</h1>
+        <input type="text" name="address" placeholder="Enter Address" class="address" id="address" style="width: 90%;height: 40px;margin: auto;"><br/><br/>
+        <input type="number" name="pageSize" placeholder="Enter page Size" id="pageSize" style="width: 90%;height: 40px;margin: auto;"><br/><br/>
+        <a onclick="fetchData()" style="cursor: pointer; background-color: black;color: white;padding: 5px 10px;border-radius:5px;font-family: Arial, Helvetica, sans-serif;text-align: center;align-items: center;box-shadow: 0 0 5px black;">Download CSV</a>
+    </div>  
+    <script >
+      
+        function fetchData(){
+            var BASE_URL="http://localhost:8080/"
+            var address = document.querySelector('input[name="address"]');
+            var pageSize = document.querySelector('input[name="pageSize"]');
+            const config = {
+                method: "POST",
+                headers: {
+                  "Content-type": "application/json; charset=UTF-8"
+                }
+            }
+            fetch(`${BASE_URL}listing/?`+ new URLSearchParams({
+                address: address.value,
+                pageSize: pageSize.value
+            }), config)
+            .then(response => response.json())
+            .then(json => {
+                var csv = ''; 
+                json?.listing.forEach(function(row) {  
+                    csv += row.join(',');  
+                    csv += "\n";
+                });
+                var hiddenBtnDownload = document.createElement('a');  
+                hiddenBtnDownload.href = 'data:text/csv;charset=utf-8,' +  encodeURI(csv);  
+                hiddenBtnDownload.target = '_blank';
+                
+                hiddenBtnDownload.download = `hotelPricing${Date.now()}.csv`;  
+                hiddenBtnDownload.click();  
+            });
+        }
+    </script>
+</body>
+
+</html>

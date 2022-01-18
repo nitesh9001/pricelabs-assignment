@@ -2,7 +2,7 @@ const fs = require('fs');
 const moment = require('moment');
 const { extractDatesRange, dateDiffernece } = require('./generic');
 
-const resolveJsonToCsv = async(listings) =>{
+const resolveJsonToCsv = async(listings, res) =>{
 
     const fileName = 'HotelPrice.csv';
     let todayDate = moment().format("YYYY-MM-DD");
@@ -30,6 +30,13 @@ const resolveJsonToCsv = async(listings) =>{
     });
     fs.writeFile(fileName , listingArray.join("\r\n"), (err) => {
         if(!err){
+            res.status(200).json({
+                "statusCode" : 200,
+                "status": "Success",
+                "message": "Wow CSV got created and download in 3 sec",
+                "listing": listingArray,
+                "error" : {}
+            });
            console.log("Data added to csv successfully , Refer to file", fileName)
         } else{
            console.error("There is some error while writing file",err)
