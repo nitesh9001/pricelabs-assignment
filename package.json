@@ -1,0 +1,19 @@
+{
+  "name": "pricelabs-assignment",
+  "version": "1.0.0",
+  "description": "Hotel filtered data based on address and expose it into csv",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nitesh-singh",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "dotenv": "^12.0.3",
+    "express": "^4.17.2",
+    "moment": "^2.29.1",
+    "nodemon": "^2.0.15"
+  }
+}
