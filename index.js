@@ -1,14 +1,17 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors')
 dotenv.config();
 const axios = require("axios");
 const fs = require('fs');
+
 const resolveJsonToCsv = require('./helper/resolveJsonToCsv');
 const payloadObject = require('./payloadObject');
-const http = require('http')
+
 const app = express();
+
 app.use(express.json());
-app.use(express.static('./index.html'))
+app.use(cors());
 
 const port = process.env.PORT || 8080;
 
