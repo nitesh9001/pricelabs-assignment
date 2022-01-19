@@ -11,13 +11,18 @@
         <h1 style="font-family: Arial, Helvetica, sans-serif;">Hostel Pricing at Price-labs</h1>
         <input type="text" name="address" placeholder="Enter Address" class="address" id="address" style="width: 90%;height: 40px;margin: auto;"><br/><br/>
         <input type="number" name="pageSize" placeholder="Enter page Size" id="pageSize" style="width: 90%;height: 40px;margin: auto;"><br/><br/>
-        <a onclick="fetchData()" style="cursor: pointer; background-color: black;color: white;padding: 5px 10px;border-radius:5px;font-family: Arial, Helvetica, sans-serif;text-align: center;align-items: center;box-shadow: 0 0 5px black;">Download CSV</a>
+        <span id="error" style="color: red; font-weight: bold;"></span><br/>
+        <button onclick="fetchData()" id="btn" style="cursor: pointer; background-color: black;color: white;padding: 5px 10px;border-radius:5px;font-family: Arial, Helvetica, sans-serif;text-align: center;align-items: center;box-shadow: 0 0 5px black;">Download CSV</button>
     </div>  
     <script >
       
         function fetchData(){
+            
             var BASE_URL="https://price-labs.herokuapp.com/"
             var address = document.querySelector('input[name="address"]');
+            document.getElementById("btn").innerHTML = "Download started .Please wait ...."
+            document.getElementById("btn").style.background = "red"
+            document.getElementById("btn").style.pointerEvents = "none"
             var pageSize = document.querySelector('input[name="pageSize"]');
             const config = {
                 method: "POST",
@@ -42,7 +47,18 @@
                 
                 hiddenBtnDownload.download = `hotelPricing${Date.now()}.csv`;  
                 hiddenBtnDownload.click();  
-            });
+                document.getElementById("btn").innerHTML = "Download CSV"
+                document.getElementById("btn").style.background = "black"
+                document.getElementById("btn").style.pointerEvents = "auto"
+                document.getElementById("error").innerHTML = "Wow! Downloaded Successfully ";
+                document.getElementById("error").style.color = "green";
+                
+            }).catch((e) => {
+                document.getElementById("btn").innerHTML = "Download CSV"
+                document.getElementById("btn").style.background = "black"
+                document.getElementById("btn").style.pointerEvents = "auto"
+                document.getElementById("error").innerHTML = "Oops! Failed to download file. Something went wrong";
+            })
         }
     </script>
 </body>
